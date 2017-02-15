@@ -1,7 +1,7 @@
 var cSize, degree, angle, scaleFactor, lastBreak;
 
 function setup() {
-  cSize = min(screen.width, screen.height);
+  cSize = min(windowWidth, windowHeight);
   angle = radians(2);
   setDegree(3);
   lastBreak = 0;
@@ -29,15 +29,16 @@ function drawPoly() {
 
 function draw() {
   var f = frameCount - lastBreak;
-  if(f % (degree * 30) == 0) {
+  var sf = pow(scaleFactor, f);
+  if(sf * cSize < 10) {
     background(0);
     setDegree(degree + 1);
     lastBreak = frameCount;
     return;
   }
-  stroke(frameCount % 360, 100, 100);
+  stroke((frameCount * 10 / degree) % 360, 100, 100);
   translate(width / 2, height /2);
   rotate(f * angle);
-  scale(pow(scaleFactor, f));
+  scale(sf);
   drawPoly();
 }
